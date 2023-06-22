@@ -95,7 +95,7 @@ for(let i=0; i<cartItems.length; i++){
 }
 let clear=document.querySelector('.clear-btn')
 clear.addEventListener('click', () => {
-    document.querySelector('main').innerHTML = `
+    document.querySelector('.cart').innerHTML = `
     <div class="go">
         <h4>YOUR BAG</h4>
         <p>is currently empty</p>
