@@ -75,7 +75,7 @@ clear.addEventListener('click', () => {
         <h4>YOUR BAG</h4>
         <p>is currently empty</p>
     </div>`;
-    updatecarttotal()
+    document.querySelector('.total-amount').innerText = 0
     
 })
 
