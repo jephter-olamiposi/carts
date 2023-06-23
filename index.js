@@ -59,37 +59,12 @@ for(let i=0;i<items.length; i++){
 let cartItems=document.querySelectorAll('.cart-item')
 for(let i=0; i<cartItems.length; i++){
     let re=cartItems[i].querySelector('.remove-btn')
-    re.addEventListener('click',()=>{
-        let cartContainer = document.getElementsByClassName('cart-container')[0]
-        let cartItems = cartContainer.getElementsByClassName('cart-item')
-        let total = 0
-        let qty=cartItems[i].querySelector('.quantity')
-        let quantity=Number(qty.innerText) 
-        qty.innerText=quantity-1
-        for (let i = 0; i < cartItems.length; i++) {
-            let cartItem = cartItems[i]
-            let itemPrice = cartItem.getElementsByClassName('item-price')[0];
-            let itemQuantity = cartItem.getElementsByClassName('quantity')[0];
-            let price = parseFloat(itemPrice.innerText.replace('$', ''))
-            let quantity = Number(itemQuantity.innerText)
-            total = total + (price * quantity)
-        }
-        
-        total = Math.round(total * 100) / 100
-        document.getElementsByClassName('total-price')[0].innerText = '$' + total
-        console.log(total)
-        let amount=document.querySelector('.total-amount')
-        let cartQty=Number(amount.innerText)
-        amount.innerText= cartQty- 1
-        if(amount.innerText<=0){
-            document.querySelector('.cart').innerHTML = `
-            <div class="go">
-                <h4>YOUR BAG</h4>
-                <p>is currently empty</p>
-            </div>`;
-        }
-       cartItems[i].remove()
+    let qty=cartItems[i].querySelector('.quantity')
 
+    console.log(qty.innerText)
+    re.addEventListener('click',()=>{  
+        cartItems[i].remove()
+        updatecarttotal()
        
     })
 }
@@ -108,67 +83,53 @@ for(let i=0; i<cartItems.length; i++){
 
     // removeBtn
     inc.addEventListener('click',()=>{
-        let cartContainer = document.getElementsByClassName('cart-container')[0]
-        let cartItems = cartContainer.getElementsByClassName('cart-item')
-        let total = 0
         let qty=cartItems[i].querySelector('.quantity')
         let quantity=Number(qty.innerText) 
         qty.innerText=quantity+1
-        for (let i = 0; i < cartItems.length; i++) {
-            let cartItem = cartItems[i]
-            let itemPrice = cartItem.getElementsByClassName('item-price')[0];
-            let itemQuantity = cartItem.getElementsByClassName('quantity')[0];
-            let price = parseFloat(itemPrice.innerText.replace('$', ''))
-            let quantity = Number(itemQuantity.innerText)
-            total = total + (price * quantity)
-        }
-        
-        total = Math.round(total * 100) / 100
-        document.getElementsByClassName('total-price')[0].innerText = '$' + total
-        console.log(total)
-        let amount=document.querySelector('.total-amount')
-        let cartQty=Number(amount.innerText)
-        amount.innerText= cartQty+ 1
+        updatecarttotal()
 
     })
     let dec=cartItems[i].querySelector('.down')
 
     dec.addEventListener('click',()=>{
-        let cartContainer = document.getElementsByClassName('cart-container')[0]
-        let cartItems = cartContainer.getElementsByClassName('cart-item')
-        let total = 0
         let qty=cartItems[i].querySelector('.quantity')
         let quantity=Number(qty.innerText) 
         qty.innerText=quantity-1
-        for (let i = 0; i < cartItems.length; i++) {
-            let cartItem = cartItems[i]
-            let itemPrice = cartItem.getElementsByClassName('item-price')[0];
-            let itemQuantity = cartItem.getElementsByClassName('quantity')[0];
-            let price = parseFloat(itemPrice.innerText.replace('$', ''))
-            let quantity = Number(itemQuantity.innerText)
-            total = total + (price * quantity)
-        }
-        
-        total = Math.round(total * 100) / 100
-        document.getElementsByClassName('total-price')[0].innerText = '$' + total
-        console.log(total)
-        let amount=document.querySelector('.total-amount')
-        let cartQty=Number(amount.innerText)
-        amount.innerText= cartQty- 1
-
-
         if (qty.innerText<=0){
             cartItems[i].remove()
         }
-        if(amount.innerText<=0){
-            document.querySelector('.cart').innerHTML = `
-            <div class="go">
-                <h4>YOUR BAG</h4>
-                <p>is currently empty</p>
-            </div>`;
-        }
+        updatecarttotal()
 
     })
 }
 
 
+function updatecarttotal(){
+    let cartContainer = document.getElementsByClassName('cart-container')[0]
+    let cartItems = cartContainer.getElementsByClassName('cart-item')
+    let total = 0
+    let qty=0
+    for (let i = 0; i < cartItems.length; i++) {
+        let cartItem = cartItems[i]
+        let itemPrice = cartItem.getElementsByClassName('item-price')[0];
+        let itemQuantity = cartItem.getElementsByClassName('quantity')[0];
+        let price = parseFloat(itemPrice.innerText.replace('$', ''))
+        let quantity = Number(itemQuantity.innerText)
+        total = total + (price * quantity)
+        qty=qty+quantity
+        console.log(price * quantity)
+    }
+    
+    total = Math.round(total * 100) / 100
+    document.getElementsByClassName('total-price')[0].innerText = '$' + total
+    document.getElementsByClassName('total-amount')[0].innerText = qty
+    if(total==0){
+
+        document.querySelector('.cart').innerHTML = `
+        <div class="go">
+            <h4>YOUR BAG</h4>
+            <p>is currently empty</p>
+        </div>`;
+    }
+
+}
